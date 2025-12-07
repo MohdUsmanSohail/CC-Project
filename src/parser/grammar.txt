@@ -1,0 +1,43 @@
+<program>   ::=     { <statement> }
+
+<statement> ::=     <load_stmt> | <filter_stmt> | <map_stmt> | <aggregate_stmt> | <for_stmt>
+                    | <print_stmt> | <assign_stmt>
+
+<load_stmt> ::=     "load" IDENTIFIER "from" STRING_LITERAL
+
+<filter_stmt>::=    "filter" IDENTIFIER <block>
+
+<map_stmt>  ::=     "map" IDENTIFIER "on" IDENTIFIER <block>
+
+<aggregate_stmt>::= "aggregate" IDENTIFIER "on" IDENTIFIER <block>
+
+<for_stmt>  ::=     "for" IDENTIFIER "in" IDENTIFIER <block>
+
+<print_stmt>::=     "print" <expr_list>
+
+<assign_stmt>::=    IDENTIFIER "=" <expr>
+
+<block>     ::=     "{" { <block_stmt} "}"
+
+<block_stmt>::=     <where_stmt> | <assign_stmt> | <print_stmt>
+
+<where_stmt>::=     "where" <expr>
+
+<expr_list> ::=     <expr> {"," <expr>}
+
+<expr>      ::=     <logic_expr>
+
+<logic_expr>::=     <rel_expr> { ("and"|"or") <rel_expr> }
+
+<rel_expr>  ::=     <add_expr> [ ("==" | "!=" | ">" | "<" | ">=" | "<=") <add_expr> ]
+
+<add_expr>  ::=     <mul_expr> { ("+" | "-") <mul_expr> }
+
+<mul_expr>  ::=     <unary_expr> { ("*" | "/" | "%") <unary_expr> }
+
+<unary_expr>::=     [ "-" ] <primary>
+
+<primary>   ::=     NUMBER | STRING_LITERAL | IDENTIFIER | IDENTIFIER "." IDENTIFIER 
+                    | <function_call> | "(" <expr> ")"
+
+<function_call>::=  IDENTIFIER "(" [expr_list] ")"
